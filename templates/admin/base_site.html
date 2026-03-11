@@ -1,0 +1,125 @@
+{% extends "admin/base.html" %}
+
+{% block title %}{% if subtitle %}{{ subtitle }} | {% endif %}{{ title }} | {{ site_title|default:_('Django site admin') }}{% endblock %}
+
+{% block extrastyle %}
+<style>
+    /* Hangisi - Premium Dark Mode Admin Override */
+    :root {
+        --primary: #A9BF3C;
+        --secondary: #00303F;
+        --accent: #bfd648;
+        --primary-fg: #00303F;
+        
+        --body-fg: #f8fafc;
+        --body-bg: #00303F;
+        --body-quiet-color: #cbd5e1;
+        --body-loud-color: #ffffff;
+        
+        --header-color: #A9BF3C;
+        --header-branding-color: #A9BF3C;
+        --header-bg: rgba(0, 48, 63, 0.95);
+        --header-link-color: #cbd5e1;
+        
+        --breadcrumbs-fg: #A9BF3C;
+        --breadcrumbs-link-fg: #f8fafc;
+        --breadcrumbs-bg: rgba(0, 48, 63, 0.5);
+        
+        --link-fg: #A9BF3C;
+        --link-hover-color: #bfd648;
+        --link-selected-fg: #f8fafc;
+        
+        --hairline-color: rgba(255, 255, 255, 0.1);
+        --border-color: rgba(255, 255, 255, 0.1);
+        
+        --error-fg: #ef4444;
+        
+        --button-fg: #00303F;
+        --button-bg: #A9BF3C;
+        --button-hover-bg: #bfd648;
+        --default-button-bg: #A9BF3C;
+        --default-button-hover-bg: #bfd648;
+        
+        --object-tools-fg: #00303F;
+        --object-tools-bg: #A9BF3C;
+        --object-tools-hover-bg: #bfd648;
+    }
+
+    body {
+        font-family: 'Outfit', sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial;
+        background-image: radial-gradient(circle at top right, rgba(169, 191, 60, 0.05), transparent 400px);
+    }
+    
+    #header {
+        backdrop-filter: blur(10px);
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+    }
+    
+    #branding h1 {
+        font-weight: 700;
+        letter-spacing: 0.5px;
+        text-shadow: 0 2px 10px rgba(169, 191, 60, 0.2);
+    }
+    
+    .module, #content-main > form, .login #container {
+        background: rgba(255, 255, 255, 0.04) !important;
+        backdrop-filter: blur(10px);
+        border: 1px solid rgba(255, 255, 255, 0.1) !important;
+        border-radius: 16px;
+        box-shadow: 0 10px 40px -10px rgba(0,0,0,0.3);
+        overflow: hidden;
+    }
+    
+    .module h2, .module caption, .inline-group h2 {
+        background: rgba(0, 48, 63, 0.6) !important;
+        color: #A9BF3C !important;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        font-weight: 600;
+        letter-spacing: 0.5px;
+    }
+    
+    div.breadcrumbs {
+        border-radius: 8px;
+        margin-bottom: 1.5rem;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        background: rgba(0, 0, 0, 0.2);
+    }
+    
+    input[type=text], input[type=password], input[type=email], input[type=url], input[type=number], input[type=tel], textarea, select, .vTextField {
+        background: rgba(255, 255, 255, 0.05) !important;
+        border: 1px solid rgba(255, 255, 255, 0.2) !important;
+        color: white !important;
+        border-radius: 8px !important;
+        padding: 8px 12px !important;
+    }
+    
+    input[type=text]:focus, input[type=password]:focus, textarea:focus, select:focus {
+        border-color: #A9BF3C !important;
+        background: rgba(255, 255, 255, 0.1) !important;
+        box-shadow: 0 0 0 2px rgba(169, 191, 60, 0.2) !important;
+    }
+    
+    .button, input[type=submit], input[type=button], .submit-row input, a.button {
+        border-radius: 10px !important;
+        font-weight: 600 !important;
+        padding: 10px 20px !important;
+        transition: all 0.2s ease !important;
+        border: none !important;
+    }
+    
+    .button:hover, input[type=submit]:hover, input[type=button]:hover, .submit-row input:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(169, 191, 60, 0.3) !important;
+    }
+</style>
+{% endblock %}
+
+{% block branding %}
+<div id="site-name"><a href="{% url 'admin:index' %}">Anketix Yönetimi</a></div>
+{% if user.is_anonymous %}
+  {% include "admin/color_theme_toggle.html" %}
+{% endif %}
+{% endblock %}
+
+{% block nav-global %}{% endblock %}

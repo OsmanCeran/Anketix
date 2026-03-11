@@ -1,0 +1,51 @@
+{% extends 'hangisi/base.html' %}
+
+{% block title %}Soru: {{ soru.soru_metni }} - Anketix{% endblock %}
+
+{% block content %}
+    <div class="poll-detail-wrapper">
+        <a href="/anketix/" class="back-link">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <line x1="19" y1="12" x2="5" y2="12"></line>
+                <polyline points="12 19 5 12 12 5"></polyline>
+            </svg>
+            Anketlere Dön
+        </a>
+
+        <div class="poll-detail-card">
+            <h1>{{ soru.soru_metni }}</h1>
+            
+            {% if error_message %}
+                <div class="error-alert">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="10"></circle>
+                        <line x1="12" y1="8" x2="12" y2="12"></line>
+                        <line x1="12" y1="16" x2="12.01" y2="16"></line>
+                    </svg>
+                    <span>{{ error_message }}</span>
+                </div>
+            {% endif %}
+
+            <form action="{% url 'anketix:vote' soru.id %}" method="post">
+            {% csrf_token %}
+            
+                <div class="options-group">
+                    {% for secenek in soru.secenek_set.all %}
+                        <label class="option-label" for="choice{{ forloop.counter }}">
+                            <input type="radio" name="choice" id="choice{{ forloop.counter }}" value="{{ secenek.id }}">
+                            <div class="custom-radio"></div>
+                            <span class="option-text">{{ secenek.secenek_metni }}</span>
+                        </label>
+                    {% endfor %}
+                </div>
+
+                <button type="submit" class="submit-vote-btn">
+                    Oyumu Kaydet
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <polyline points="20 6 9 17 4 12"></polyline>
+                    </svg>
+                </button>
+            </form>
+        </div>
+    </div>
+{% endblock %}

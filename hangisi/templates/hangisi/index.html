@@ -1,0 +1,95 @@
+{% extends 'hangisi/base.html' %}
+
+{% block content %}
+    <!-- KARŞILAMA / LANDING EKRANI -->
+    <div id="landing-section" class="landing-wrapper">
+        <div class="landing-content">
+            <div class="icon-pulse-effect" style="margin-bottom: 2rem;">
+                <!-- Sohbet/Oylama İkonu -->
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="#A9BF3C" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
+                    <line x1="9" y1="9" x2="15" y2="9"></line>
+                    <line x1="9" y1="13" x2="15" y2="13"></line>
+                </svg>
+            </div>
+            <h1>Anketix'e Hoş Geldiniz</h1>
+            <p>Fikirlerinizi özgürce ifade edin, güncel oylamalara katılın ve topluluğun nabzını tutun. Karar vermekte zorlandığınız konularda topluluğa sorarak doğru yolu bulun.</p>
+            <button id="show-polls-btn" class="submit-vote-btn" style="width: auto; padding: 1rem 2.5rem; margin-top: 1.5rem; display: inline-flex;">
+                Anketleri Görüntüle
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="#00303F" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="5" y1="12" x2="19" y2="12"></line>
+                    <polyline points="12 5 19 12 12 19"></polyline>
+                </svg>
+            </button>
+        </div>
+    </div>
+
+    <!-- ANKET İÇERİKLERİ (İlk başta gizli) -->
+    <div id="main-content" style="display: none; width: 100%; flex-direction: column; align-items: center;">
+    {% if son_sorular %}
+        <div class="poll-list-wrapper">
+            <div class="poll-header">
+                <h1>Güncel Anketler</h1>
+                <p>Katılmak istediğiniz anketi seçip hemen oy verebilirsiniz.</p>
+            </div>
+            <div class="poll-grid">
+                {% for soru in son_sorular %}
+                <a href="/anketix/{{ soru.id }}/" class="poll-card">
+                    <div class="poll-card-content">
+                        <div class="poll-icon">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M14 2H6a2 2 0 0 0-2 2v16h16v-8M14 2v6h6M16 13H8M16 17H8M10 9H8"></path>
+                            </svg>
+                        </div>
+                        <h3>{{ soru.soru_metni }}</h3>
+                    </div>
+                    <div class="poll-card-footer">
+                        <span>Ankete Katıl</span>
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <line x1="5" y1="12" x2="19" y2="12"></line>
+                            <polyline points="12 5 19 12 12 19"></polyline>
+                        </svg>
+                    </div>
+                </a>
+                {% endfor %}
+            </div>
+        </div>
+    {% else %}
+        <div class="empty-state-wrapper">
+            <div class="empty-state-content">
+                <div class="icon-pulse-effect">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="10"></circle>
+                        <path d="M8 15h8"></path>
+                        <line x1="9" y1="9" x2="9.01" y2="9"></line>
+                        <line x1="15" y1="9" x2="15.01" y2="9"></line>
+                    </svg>
+                </div>
+                <h2>Henüz Anket Yok</h2>
+                <p>Şu an için oluşturulmuş veya oylamaya açılmış herhangi bir anket bulunmuyor. Yeni bir anket oluşturarak insanların fikrini almaya başlayabilirsiniz.</p>
+            </div>
+        </div>
+    {% endif %}
+    </div>
+{% endblock %}
+
+{% block extra_scripts %}
+    <script>
+        document.getElementById('show-polls-btn').addEventListener('click', function() {
+            var landing = document.getElementById('landing-section');
+            var mainContent = document.getElementById('main-content');
+            
+            // Yumuşak kaybolma efekti
+            landing.style.opacity = '0';
+            landing.style.transition = 'opacity 0.4s ease';
+            
+            setTimeout(function() {
+                landing.style.display = 'none';
+                mainContent.style.display = 'flex';
+                mainContent.style.flexDirection = 'column';
+                mainContent.style.alignItems = 'center';
+                mainContent.classList.add('fade-in');
+            }, 400);
+        });
+    </script>
+{% endblock %}

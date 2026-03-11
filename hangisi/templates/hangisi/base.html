@@ -1,0 +1,44 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}Anketix - Anketler{% endblock %}</title>
+    <link rel="stylesheet" href="{% static 'hangisi/style.css' %}?v={{ request.ctime|default:'7' }}">
+    <!-- Chart.js Kütüphanesi -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        /* Fallback cache-breaker for strict browsers */
+        svg { max-width: 80px; }
+        body { background-color: #00303F; }
+    </style>
+</head>
+<body>
+    <!-- ÜST MENÜ / NAVBAR -->
+    <nav class="top-navbar">
+        <div class="nav-container">
+            <a href="{% url 'anketix:index' %}" class="nav-logo">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                    <polyline points="7 10 12 15 17 10"></polyline>
+                    <line x1="12" y1="15" x2="12" y2="3"></line>
+                </svg>
+                ANKETİX
+            </a>
+            <div class="nav-links">
+                <a href="{% url 'anketix:index' %}">Anasayfa</a>
+                <a href="{% url 'anketix:index' %}#main-content" onclick="document.getElementById('landing-section').style.display='none'; document.getElementById('main-content').style.display='flex';">Anketler</a>
+                <a href="{% url 'anketix:grafikler' %}">Grafikler</a>
+                <a href="{% url 'anketix:anket_ekle' %}" style="color: #A9BF3C; font-weight: 600;">+ Anket Ekle</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- ANA İÇERİK -->
+    <main class="main-container">
+        {% block content %}{% endblock %}
+    </main>
+
+    {% block extra_scripts %}{% endblock %}
+</body>
+</html>

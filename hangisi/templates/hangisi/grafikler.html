@@ -1,0 +1,95 @@
+{% extends 'hangisi/base.html' %}
+
+{% block title %}Grafikler - Anketix{% endblock %}
+
+{% block content %}
+<div class="poll-list-wrapper">
+    <div class="poll-header">
+        <h1>Anket Sonuçları & Grafikler</h1>
+        <p>Tüm anketlerin oy dağılımını dairesel (pie) grafiklerle detaylı olarak inceleyin.</p>
+    </div>
+
+    <div class="grafikler-container" style="display: flex; flex-direction: column; gap: 3rem; align-items: center; width: 100%;">
+        {% for soru in sorular %}
+            <div class="poll-detail-card" style="width: 100%; max-width: 600px; display: flex; flex-direction: column; align-items: center;">
+                <h3 style="color: #f8fafc; font-size: 1.3rem; margin-bottom: 2rem; text-align: center;">{{ soru.soru_metni }}</h3>
+                
+                <div style="width: 100%; max-width: 350px; position: relative;">
+                    <canvas id="chart_{{ soru.id }}"></canvas>
+                </div>
+                
+                <script>
+                    document.addEventListener('DOMContentLoaded', function() {
+                        const ctx_{{ soru.id }} = document.getElementById('chart_{{ soru.id }}').getContext('2d');
+                        
+                        // Veriler Django template tarafından sağlanıyor
+                        const labels_{{ soru.id }} = [
+                            {% for secenek in soru.secenek_set.all %}
+                                "{{ secenek.secenek_metni|escapejs }}"{% if not forloop.last %},{% endif %}
+                            {% endfor %}
+                        ];
+                        
+                        const data_{{ soru.id }} = [
+                            {% for secenek in soru.secenek_set.all %}
+                                {{ secenek.oylar }}{% if not forloop.last %},{% endif %}
+                            {% endfor %}
+                        ];
+
+                        // Renk paleti oluştur (özel renklere uyumlu)
+                        const backgroundColors = [
+                            '#A9BF3C', '#64748b', '#cbd5e1', '#38bdf8', '#fbbf24', '#f87171'
+                        ];
+
+                        new Chart(ctx_{{ soru.id }}, {
+                            type: 'pie', // Dairesel grafik
+                            data: {
+                                labels: labels_{{ soru.id }},
+                                datasets: [{
+                                    data: data_{{ soru.id }},
+                                    backgroundColor: backgroundColors,
+                                    borderWidth: 0,
+                                    hoverOffset: 6
+                                }]
+                            },
+                            options: {
+                                responsive: true,
+                                plugins: {
+                                    legend: {
+                                        position: 'bottom',
+                                        labels: {
+                                            color: '#cbd5e1',
+                                            padding: 20,
+                                            font: {
+                                                family: "'Outfit', sans-serif",
+                                                size: 14
+                                            }
+                                        }
+                                    },
+                                    tooltip: {
+                                        callbacks: {
+                                            label: function(context) {
+                                                let label = context.label || '';
+                                                if (label) {
+                                                    label += ': ';
+                                                }
+                                                if (context.parsed !== null) {
+                                                    label += context.parsed + ' Oy';
+                                                }
+                                                return label;
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        });
+                    });
+                </script>
+            </div>
+        {% empty %}
+            <div class="empty-state-content" style="box-shadow: none; background: transparent; border: none;">
+                <p style="color: #94a3b8; font-size: 1.1rem;">Henüz grafik oluşturulacak bir anket veya oy bulunamadı.</p>
+            </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}
