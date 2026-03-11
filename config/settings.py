@@ -31,7 +31,7 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
-    'hangisi.apps.HangisiConfig',
+    'anketix.apps.AnketixConfig',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -117,7 +117,7 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
-    'hangisi.apps.HangisiConfig',
+    'anketix.apps.AnketixConfig',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',

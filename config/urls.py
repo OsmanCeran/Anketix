@@ -9,7 +9,7 @@ from django.contrib import admin
 from django.urls import include, path
 
 urlpatterns = [
-    path('anketix/', include('hangisi.urls')),
+    path('anketix/', include('anketix.urls')),
     path('admin/', admin.site.urls),
 ]
 

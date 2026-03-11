@@ -8,7 +8,7 @@ from django.views import generic
 from .models import Secenek, Soru
 
 class IndexView(generic.ListView):
-    template_name = "hangisi/index.html"
+    template_name = "anketix/index.html"
     context_object_name = "son_sorular"
 
     def get_queryset(self):
@@ -21,7 +21,7 @@ class IndexView(generic.ListView):
         )[:5]
 
 class GrafiklerView(generic.ListView):
-    template_name = "hangisi/grafikler.html"
+    template_name = "anketix/grafikler.html"
     context_object_name = "sorular"
 
     def get_queryset(self):
@@ -32,7 +32,7 @@ class GrafiklerView(generic.ListView):
 
 class DetailView(generic.DetailView):
     model = Soru
-    template_name = "hangisi/detail.html"
+    template_name = "anketix/detail.html"
 
     def get_queryset(self):
         """
@@ -42,7 +42,7 @@ class DetailView(generic.DetailView):
 
 class ResultsView(generic.DetailView):
     model = Soru
-    template_name = "hangisi/results.html"
+    template_name = "anketix/results.html"
 
 def vote(request, soru_id):
     soru = get_object_or_404(Soru, pk=soru_id)
@@ -51,7 +51,7 @@ def vote(request, soru_id):
     except (KeyError, Secenek.DoesNotExist):
         return render(
             request,
-            "hangisi/detail.html",
+            "anketix/detail.html",
             {
                 "soru": soru,
                 "error_message": "Bir seçim yapmadınız.",
@@ -71,12 +71,12 @@ def anket_ekle(request):
         gecerli_secenekler = [s.strip() for s in secenekler if s.strip()]
 
         if not soru_metni:
-            return render(request, "hangisi/anket_ekle.html", {
+            return render(request, "anketix/anket_ekle.html", {
                 "error_message": "Lütfen bir soru girin."
             })
             
         if len(gecerli_secenekler) < 2:
-            return render(request, "hangisi/anket_ekle.html", {
+            return render(request, "anketix/anket_ekle.html", {
                 "error_message": "En az 2 geçerli seçenek girmelisiniz.",
                 "soru_metni": soru_metni
             })
@@ -94,4 +94,4 @@ def anket_ekle(request):
         return HttpResponseRedirect(reverse("anketix:index"))
 
     # GET Request
-    return render(request, "hangisi/anket_ekle.html")
+    return render(request, "anketix/anket_ekle.html")
