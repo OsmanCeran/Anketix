@@ -1,6 +1,6 @@
-{% extends 'anketix/base.html' %}
+{% extends 'anketin/base.html' %}
 
-{% block title %}Yeni Anket Oluştur - Anketix{% endblock %}
+{% block title %}Yeni Anket Oluştur - Anketin{% endblock %}
 
 {% block content %}
 <div class="poll-detail-wrapper" style="max-width: 600px;">
@@ -21,7 +21,7 @@
             </div>
         {% endif %}
 
-        <form action="{% url 'anketix:anket_ekle' %}" method="post" id="anketForm">
+        <form action="{% url 'anketin:anket_ekle' %}" method="post" id="anketForm">
             {% csrf_token %}
             
             <div style="margin-bottom: 2rem;">

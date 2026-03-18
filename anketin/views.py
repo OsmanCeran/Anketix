@@ -8,7 +8,7 @@ from django.views import generic
 from .models import Secenek, Soru
 
 class IndexView(generic.ListView):
-    template_name = "anketix/index.html"
+    template_name = "anketin/index.html"
     context_object_name = "son_sorular"
 
     def get_queryset(self):
@@ -21,7 +21,7 @@ class IndexView(generic.ListView):
         )[:5]
 
 class GrafiklerView(generic.ListView):
-    template_name = "anketix/grafikler.html"
+    template_name = "anketin/grafikler.html"
     context_object_name = "sorular"
 
     def get_queryset(self):
@@ -32,7 +32,7 @@ class GrafiklerView(generic.ListView):
 
 class DetailView(generic.DetailView):
     model = Soru
-    template_name = "anketix/detail.html"
+    template_name = "anketin/detail.html"
 
     def get_queryset(self):
         """
@@ -42,7 +42,7 @@ class DetailView(generic.DetailView):
 
 class ResultsView(generic.DetailView):
     model = Soru
-    template_name = "anketix/results.html"
+    template_name = "anketin/results.html"
 
 def vote(request, soru_id):
     soru = get_object_or_404(Soru, pk=soru_id)
@@ -51,7 +51,7 @@ def vote(request, soru_id):
     except (KeyError, Secenek.DoesNotExist):
         return render(
             request,
-            "anketix/detail.html",
+            "anketin/detail.html",
             {
                 "soru": soru,
                 "error_message": "Bir seçim yapmadınız.",
@@ -60,7 +60,7 @@ def vote(request, soru_id):
     else:
         secilen_secenek.oylar = F("oylar") + 1
         secilen_secenek.save()
-        return HttpResponseRedirect(reverse("anketix:results", args=(soru.id,)))
+        return HttpResponseRedirect(reverse("anketin:results", args=(soru.id,)))
 
 def anket_ekle(request):
     if request.method == "POST":
@@ -71,12 +71,12 @@ def anket_ekle(request):
         gecerli_secenekler = [s.strip() for s in secenekler if s.strip()]
 
         if not soru_metni:
-            return render(request, "anketix/anket_ekle.html", {
+            return render(request, "anketin/anket_ekle.html", {
                 "error_message": "Lütfen bir soru girin."
             })
             
         if len(gecerli_secenekler) < 2:
-            return render(request, "anketix/anket_ekle.html", {
+            return render(request, "anketin/anket_ekle.html", {
                 "error_message": "En az 2 geçerli seçenek girmelisiniz.",
                 "soru_metni": soru_metni
             })
@@ -91,7 +91,7 @@ def anket_ekle(request):
         for secenek_metni in gecerli_secenekler:
             yeni_soru.secenek_set.create(secenek_metni=secenek_metni)
 
-        return HttpResponseRedirect(reverse("anketix:index"))
+        return HttpResponseRedirect(reverse("anketin:index"))
 
     # GET Request
-    return render(request, "anketix/anket_ekle.html")
+    return render(request, "anketin/anket_ekle.html")

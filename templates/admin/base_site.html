@@ -4,7 +4,7 @@
 
 {% block extrastyle %}
 <style>
-    /* Anketix - Premium Dark Mode Admin Override */
+    /* Anketin - Premium Dark Mode Admin Override */
     :root {
         --primary: #A9BF3C;
         --secondary: #00303F;
@@ -116,7 +116,7 @@
 {% endblock %}
 
 {% block branding %}
-<div id="site-name"><a href="{% url 'admin:index' %}">Anketix Yönetimi</a></div>
+<div id="site-name"><a href="{% url 'admin:index' %}">Anketin Yönetimi</a></div>
 {% if user.is_anonymous %}
   {% include "admin/color_theme_toggle.html" %}
 {% endif %}

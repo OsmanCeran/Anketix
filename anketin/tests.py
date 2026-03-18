@@ -17,7 +17,7 @@ def create_question(soru_metni, days):
 class SoruIndexViewTests(TestCase):
     def test_no_questions(self):
         """Herhangi bir soru yoksa uygun mesaj gösterilir."""
-        response = self.client.get(reverse("anketix:index"))
+        response = self.client.get(reverse("anketin:index"))
         self.assertEqual(response.status_code, 200)
         self.assertContains(response, "Henüz Anket Yok")
         self.assertQuerySetEqual(response.context["son_sorular"], [])
@@ -25,7 +25,7 @@ class SoruIndexViewTests(TestCase):
     def test_past_question(self):
         """Geçmişte yayımlanan sorular index sayfasında gösterilir."""
         soru = create_question(soru_metni="Geçmiş soru.", days=-30)
-        response = self.client.get(reverse("anketix:index"))
+        response = self.client.get(reverse("anketin:index"))
         self.assertQuerySetEqual(
             response.context["son_sorular"],
             [soru],
@@ -34,7 +34,7 @@ class SoruIndexViewTests(TestCase):
     def test_future_question(self):
         """Gelecekte yayımlanacak sorular index sayfasında gösterilmez."""
         create_question(soru_metni="Gelecek soru.", days=30)
-        response = self.client.get(reverse("anketix:index"))
+        response = self.client.get(reverse("anketin:index"))
         self.assertContains(response, "Henüz Anket Yok")
         self.assertQuerySetEqual(response.context["son_sorular"], [])
 
@@ -42,7 +42,7 @@ class SoruIndexViewTests(TestCase):
         """Hem geçmiş hem gelecek soru varsa, sadece geçmiş sorular gösterilir."""
         soru = create_question(soru_metni="Geçmiş soru.", days=-30)
         create_question(soru_metni="Gelecek soru.", days=30)
-        response = self.client.get(reverse("anketix:index"))
+        response = self.client.get(reverse("anketin:index"))
         self.assertQuerySetEqual(
             response.context["son_sorular"],
             [soru],
@@ -52,7 +52,7 @@ class SoruIndexViewTests(TestCase):
         """Index sayfası birden çok soruyu gösterebilir."""
         soru1 = create_question(soru_metni="Geçmiş soru 1.", days=-30)
         soru2 = create_question(soru_metni="Geçmiş soru 2.", days=-5)
-        response = self.client.get(reverse("anketix:index"))
+        response = self.client.get(reverse("anketin:index"))
         self.assertQuerySetEqual(
             response.context["son_sorular"],
             [soru2, soru1],
@@ -65,7 +65,7 @@ class SoruDetailViewTests(TestCase):
         404 (Böyle bir sayfa yok) döndürür.
         """
         gelecekteki_soru = create_question(soru_metni="Gelecek soru.", days=5)
-        url = reverse("anketix:detail", args=(gelecekteki_soru.id,))
+        url = reverse("anketin:detail", args=(gelecekteki_soru.id,))
         response = self.client.get(url)
         self.assertEqual(response.status_code, 404)
 
@@ -75,7 +75,7 @@ class SoruDetailViewTests(TestCase):
         soru metnini gösterir.
         """
         gecmis_soru = create_question(soru_metni="Geçmiş soru.", days=-5)
-        url = reverse("anketix:detail", args=(gecmis_soru.id,))
+        url = reverse("anketin:detail", args=(gecmis_soru.id,))
         response = self.client.get(url)
         self.assertContains(response, gecmis_soru.soru_metni)
 

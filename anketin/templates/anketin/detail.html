@@ -1,10 +1,10 @@
-{% extends 'anketix/base.html' %}
+{% extends 'anketin/base.html' %}
 
-{% block title %}Soru: {{ soru.soru_metni }} - Anketix{% endblock %}
+{% block title %}Soru: {{ soru.soru_metni }} - Anketin{% endblock %}
 
 {% block content %}
     <div class="poll-detail-wrapper">
-        <a href="/anketix/" class="back-link">
+        <a href="/anketin/" class="back-link">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                 <line x1="19" y1="12" x2="5" y2="12"></line>
                 <polyline points="12 19 5 12 12 5"></polyline>
@@ -26,7 +26,7 @@
                 </div>
             {% endif %}
 
-            <form action="{% url 'anketix:vote' soru.id %}" method="post">
+            <form action="{% url 'anketin:vote' soru.id %}" method="post">
             {% csrf_token %}
             
                 <div class="options-group">

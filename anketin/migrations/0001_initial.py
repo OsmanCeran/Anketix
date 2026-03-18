@@ -26,7 +26,7 @@ class Migration(migrations.Migration):
                 ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
                 ('secenek_metni', models.CharField(max_length=200)),
                 ('oylar', models.IntegerField(default=0)),
-                ('soru', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='anketix.soru')),
+                ('soru', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='anketin.soru')),
             ],
         ),
     ]

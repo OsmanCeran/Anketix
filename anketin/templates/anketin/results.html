@@ -1,10 +1,10 @@
-{% extends 'anketix/base.html' %}
+{% extends 'anketin/base.html' %}
 
-{% block title %}Sonuçlar: {{ soru.soru_metni }} - Anketix{% endblock %}
+{% block title %}Sonuçlar: {{ soru.soru_metni }} - Anketin{% endblock %}
 
 {% block content %}
 <div class="poll-detail-wrapper" style="max-width: 700px;">
-    <a href="{% url 'anketix:detail' soru.id %}" class="back-link">
+    <a href="{% url 'anketin:detail' soru.id %}" class="back-link">
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
             <line x1="19" y1="12" x2="5" y2="12"></line>
             <polyline points="12 19 5 12 12 5"></polyline>
@@ -27,10 +27,10 @@
         </div>
 
         <div style="display: flex; gap: 1rem; margin-top: 2rem;">
-            <a href="{% url 'anketix:index' %}" class="submit-vote-btn" style="text-decoration: none; background: rgba(255,255,255,0.1); color: #f8fafc; border: 1px solid rgba(255,255,255,0.2);">
+            <a href="{% url 'anketin:index' %}" class="submit-vote-btn" style="text-decoration: none; background: rgba(255,255,255,0.1); color: #f8fafc; border: 1px solid rgba(255,255,255,0.2);">
                 Ana Sayfa
             </a>
-            <a href="{% url 'anketix:grafikler' %}" class="submit-vote-btn" style="text-decoration: none;">
+            <a href="{% url 'anketin:grafikler' %}" class="submit-vote-btn" style="text-decoration: none;">
                 Grafiklere Git
                 <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21.21 15.89A10 10 0 1 1 8 2.83"></path><path d="M22 12A10 10 0 0 0 12 2v10z"></path></svg>
             </a>
